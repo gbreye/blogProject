@@ -1,8 +1,14 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
 
-import usersController from '../controllers/usersController.js'
+import usersController from '../controllers/singupController.js'
 
-router.get('/', usersController.getSigninformation)
+router.get('/', (req, res) => {
+    res.send('Users route')
+})
 
-module.exports = router
+router.post('/signup', async (req, res) => {
+    await usersController.getForminformation(req, res);
+});
+
+export default router;
