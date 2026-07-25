@@ -11,6 +11,7 @@ const limiter = rateLimit({
 
 
 import usersController from '../controllers/singupController.js'
+import loginController from '../controllers/loginController.js'
 
 router.get('/', (req, res) => {
     res.send('Users route')
@@ -19,5 +20,9 @@ router.get('/', (req, res) => {
 router.post('/signup', limiter, async (req, res) => {
     await usersController.getForminformation(req, res);
 });
+
+router.post('/login', limiter, async (req, res) => {
+    await loginController.getValidation(req, res);
+})
 
 export default router;
