@@ -15,6 +15,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.6.0",
     "mongoose": "^9.8.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -26,5 +27,18 @@
     "@vitejs/plugin-react": "^6.0.3",
     "oxlint": "^1.71.0",
     "vite": "^8.1.1"
-  }
+  },
+  "description": "This project provide free service for blog sites, with backend, api and customization with an admin system to add posts.",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbreye/blogProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gbreye/blogProject/issues"
+  },
+  "homepage": "https://github.com/gbreye/blogProject#readme"
 }
