@@ -36,7 +36,7 @@ async function getValidation(req, res) {
             sameSite: 'strict',
             httpOnly: true,
             maxAge:3600000
-        })
+        });
         return res.status(200).json({ message: "Login realizado com sucesso!" });
     } catch (error) {
         return res.status(500).json({mensage : 'controller error'})
