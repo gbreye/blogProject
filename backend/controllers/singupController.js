@@ -8,7 +8,7 @@ async function getForminformation(req, res) {
     try {
         const { username, email, password } = req.body;
     const hashedPassword = await transformRash(password);
-    await User.create({ username, email, password: hashedPassword });
+    await User.create({ username, email, password: hashedPassword, isAdmin: false});
     res.status(201).json({ message: 'Signup successful' });
     } catch (error) {
         console.error('Error during signup:', error);

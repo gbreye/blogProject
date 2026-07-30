@@ -1,5 +1,7 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
+
 const router = express.Router();
 
 const limiter = rateLimit({
@@ -8,14 +10,13 @@ const limiter = rateLimit({
     message: 'Muitas requisições criadas, tente novamente mais tarde.'
 });
 
-import pageController from '../controllers/pageController';
+import pageController from '../controllers/pageController.js';
 
-router.get('/', (req, res) => {
-    res.send('rotadecriarPagina')
+
+router.post('/addpage', async(req, res) => {
+    await pageController.savePage(req, res);
 });
 
-router.post('postPage', limiter, async, (req, res) => {
-    await pageController.savePage(req,res);
-});
+
 
 export default router;
