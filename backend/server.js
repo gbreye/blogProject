@@ -17,6 +17,7 @@ app.use(express.json());
 
 app.use('/users', usersRoutes.default);
 
+
 app.get("/", (req, res) => {
     res.send("Hello World");
 });
