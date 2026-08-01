@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 form {
@@ -20,11 +21,11 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #363636;
+    background-color: #36363625;
     padding: clamp(30px, 100vw, 50px);
     border: 2px solid #3b3b3b;
     border-radius: 30px;
-    width: clamp(300px, 90vw, 700px );
+    width: clamp(200px, 90vw, 900px );
     height: auto;
     margin-top: 50px;
 }
@@ -64,21 +65,49 @@ form {
     outline: none;
 }
 
-#textBlock {
-    background-color: #55555536;
+.textBlock {
+    background-color: rgba(77, 76, 75, 0.288);
     padding: 20px;
     border: none;
     font-size: clamp(1.1rem, 10vw, 1.5rem);
     color: white;
     resize: none;
-    width: 100%;
-    border-radius: 30px;
-    margin-top: 10px;
-    height: clamp(200px, 90vh, 400px);
-
+    width: 500px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    
 }
 
-#textBlock:focus {
+.textBlock:focus {
     border: none;
     outline: none;
+}
+
+.imageBlock {
+    width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 30px;
+  transition: 1s ease;
+}
+
+.imageBlock:hover {
+    transform: scale(1.025);
+    transition: 1s ease;
+}
+
+button {
+    padding: 20px;
+    width: 100%;
+    border: 2px solid #0072c4;
+    border-radius: 100px;
+    background-color: #0094FF;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:active {
+    transition: 0.3s ease;
+    transform: scale(0.8);
 }
