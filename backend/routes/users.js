@@ -13,7 +13,8 @@ const limiter = rateLimit({
 import usersController from '../controllers/singupController.js'
 import loginController from '../controllers/loginController.js'
 import dashboardController from '../controllers/dashboardController.js';
-import pageController from '../controllers/pageController.js';
+
+
 
 router.get('/', (req, res) => {
     res.send('Users route')
@@ -31,9 +32,6 @@ router.get('/dashboard', async(req, res) => {
     await dashboardController.getUserInfo(req, res);
 });
 
-router.post('/addpage', async(req, res) => {
-    await pageController.savePage(req, res);
-});
 
 
 

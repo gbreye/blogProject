@@ -11,9 +11,11 @@ const limiter = rateLimit({
 });
 
 import pageController from '../controllers/pageController.js';
+import adminMiddleware from '../middlewares/adminMiddleWare.js'
 
 
 router.post('/addpage', async(req, res) => {
+    await adminMiddleware.adminMiddleWare(req,res,next);
     await pageController.savePage(req, res);
 });
 

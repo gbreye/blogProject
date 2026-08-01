@@ -4,6 +4,7 @@ import Home from "./pages/home.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard.jsx";
+import Post from "./pages/addpage.jsx";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path="signup" element={<Signup/>}></Route>
                 <Route path="login" element={<Login/>}></Route>
                 <Route path="dashboard" element={<Dashboard/>}></Route>
+                <Route path="post" element={<Post/>}></Route>
             </Routes>
         </BrowserRouter>
     );
