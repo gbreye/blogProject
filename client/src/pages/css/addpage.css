@@ -104,12 +104,12 @@ form {
   height: 300px;
   object-fit: cover;
   border-radius: 30px;
-  transition: 0.5s ease;
+  transition: 0.2s ease;
 }
 
 .imageBlock:hover {
     transform: scale(1.025);
-    transition: 0.5s ease;
+    transition: 0.2s ease;
 }
 
 .deleteItem {

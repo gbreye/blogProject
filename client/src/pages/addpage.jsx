@@ -5,18 +5,26 @@ import {useDropzone} from 'react-dropzone';
 import './css/addpage.css';
 
 function Post() {
-    const [formData, setFormData] = useState({
-        title: '',
-        subTitle: '',
-        textBlock0: '',
-    });
+    const formData = new FormData();
+    
     const [elements, addElement] = useState([
         {id:1, type: 'TextareaAutosize', name: 'textBlock', class: 'textBlock'}
     ]);
+    const deleteImage = () => {
+        addElement((prevElements) => {
+            const btn = elements.length-2
+            const image = elements.length-3
+            const newTextBlock = elements.length-1
 
-    function deleteImage() {
-        if(elements.length <= 3) return (alert('nao da pra deletar, erro'))
-        addElement((prevElements) => prevElements.slice(0, -3));
+            if(newTextBlock.value === '') {
+                return prevElements.filter(
+                (_, index) => index !== btn && index !== image && index !== newTextBlock)
+            } else {
+                 return prevElements.filter(
+                (_, index) => index !== btn && index !== image
+            )
+            }
+        });
     }
 
     async function savePost(file) {
@@ -27,7 +35,7 @@ function Post() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include', 
-                body: file
+                body: JSON.stringify(formData)
             });
             if(!response.ok) {
                 alert('Erro em salvar a imagem do usuario!, delete a imagem e tente novamente!')
@@ -40,21 +48,22 @@ function Post() {
     //isso aq é importante pra fazer o baguil funciona//
     const addImage = (file) => {
         const newImage = {
-            id: elements.length + 1,
+            id: Date.now(),
             type: 'image',
             name: 'ImageBlock' + elements.length + 1,
             class: 'imageBlock',
+            file: file,
             src: URL.createObjectURL(file)
         }
         
         const deleteBtns = {
-            id: elements.length + 1,
+            id: Date.now() + 1,
             type: 'button',
             name: 'deleteItem',
             class: 'deleteItem'    
         }
         const newTextArea = {
-            id: elements.length + 1,
+            id: Date.now() + 2,
             type: 'TextareaAutosize', 
             name: 'ImageBlock' + elements.length + 1, 
             class: 'textBlock'
@@ -82,7 +91,7 @@ function Post() {
                     addImage(file);
                 }
             }
-        
+    
         
     };
      return(
@@ -104,7 +113,7 @@ function Post() {
                         }
                         if(el.type === 'button') {
                             return(
-                                <button key={el.id} className={el.class} onClick={() => addElement((prevElements) => prevElements.slice(-3, -1))}>
+                                <button key={el.id} className={el.class} onClick={deleteImage}>
                                     Delete Image
                                 </button>
                             )
