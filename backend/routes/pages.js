@@ -1,8 +1,13 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
-
+import multer from 'multer';
 
 const router = express.Router();
+
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 } 
+});
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
@@ -13,12 +18,9 @@ const limiter = rateLimit({
 import pageController from '../controllers/pageController.js';
 import adminMiddleware from '../middlewares/adminMiddleWare.js'
 
-
-router.post('/addpage', async(req, res) => {
-    await adminMiddleware.adminMiddleWare(req,res,next);
+router.post('/addpage', upload.any(), adminMiddleware.adminMiddleWare, async (req, res) => {
+    console.log("entrou no addpage");
     await pageController.savePage(req, res);
 });
-
-
 
 export default router;

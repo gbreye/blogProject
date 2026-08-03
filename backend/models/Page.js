@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  textBlock: {
+  structure: {
     type: String,
     required: true,
   },
