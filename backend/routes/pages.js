@@ -23,4 +23,9 @@ router.post('/addpage', upload.any(), adminMiddleware.adminMiddleWare, async (re
     await pageController.savePage(req, res);
 });
 
+router.post('/verifyPage', async (req, res) => {
+    console.log("entrou no verifyPage");
+    await pageController.getPage(req, res);
+});
+
 export default router;

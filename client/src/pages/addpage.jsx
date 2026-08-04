@@ -5,46 +5,73 @@ import {useDropzone} from 'react-dropzone';
 import './css/addpage.css';
 
 function Post() {
-    const formData = new FormData();
-    
+    const [sendData, setDataToSend] = useState({title: '', subtitle: ''})
     const [elements, addElement] = useState([
-        {id:1, type: 'TextareaAutosize', name: 'textBlock', class: 'textBlock'}
+        {id:1, type: 'TextareaAutosize', name: 'textBlock', class: 'textBlock', content: ''},
     ]);
-    const deleteImage = () => {
-        addElement((prevElements) => {
-            const btn = elements.length-2
-            const image = elements.length-3
-            const newTextBlock = elements.length-1
-
-            if(newTextBlock.value === '') {
-                return prevElements.filter(
-                (_, index) => index !== btn && index !== image && index !== newTextBlock)
-            } else {
-                 return prevElements.filter(
-                (_, index) => index !== btn && index !== image
-            )
-            }
-        });
+    const handleTitleChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        setDataToSend(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     }
 
-    async function savePost(file) {
-        try {
-            const response = await fetch('http://localhost:3000/createPage/post', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include', 
-                body: JSON.stringify(formData)
-            });
-            if(!response.ok) {
-                alert('Erro em salvar a imagem do usuario!, delete a imagem e tente novamente!')
+    const handleTextChange = (e, id) => {
+        e.preventDefault();
+        const { value } = e.target;
+        addElement(prevElements => prevElements.map(el => {
+            if (el.id === id) {
+                return { ...el, content: value };
             }
-        } catch(error) {
-            console.log("erro em salvar a imagem no servidor", error)
-        }
-    };
+            return el;
+        }));
+    }
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+            await savePost();
+     }
+    //estados//
+    //BUGS ta quebrando o site inteiro//
+    //const deleteImage = () => {
+        //criar isso dps
+    //}
+    //BUGS ta quebrando o site inteiro//
+async function savePost(file) {
+  const formData = new FormData();
+  
+  const structure = elements.filter(el => el.type !== 'button').map(el => {
+    if(el.type === 'image') {
+      return { id: el.id, type: 'image', src: null };
+    }
+    return { id: el.id, type: 'text', content: el.content ?? '' };
+  });
 
+  formData.append('structure', JSON.stringify(structure));
+  formData.append('title', sendData.title);
+  formData.append('subTitle', sendData.subTitle);
+
+  elements.forEach((el) => {
+    if (el.type === 'image' && el.file) {
+      formData.append(`image_${el.id}`, el.file);
+    }
+  });
+
+  try {
+    const response = await fetch('http://localhost:3000/createPage/addpage', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData 
+    });
+
+    if(!response.ok) {
+      alert('Erro em salvar a imagem do usuario!, delete a imagem e tente novamente!');
+    }
+  } catch(error) {
+    console.log("erro em salvar a imagem no servidor", error);
+  }
+}
     //isso aq é importante pra fazer o baguil funciona//
     const addImage = (file) => {
         const newImage = {
@@ -66,9 +93,12 @@ function Post() {
             id: Date.now() + 2,
             type: 'TextareaAutosize', 
             name: 'ImageBlock' + elements.length + 1, 
-            class: 'textBlock'
+            class: 'textBlock',
+            content: ''
         }
+        
         addElement((prevElements) => [...prevElements, newImage, deleteBtns, newTextArea]);
+
     };
 
     const dragEvents ={
@@ -97,9 +127,9 @@ function Post() {
      return(
         <section className="mainContent">
             <div className="dropImage" {...dragEvents}>
-            <form>
-                <textarea name="title" id="title" placeholder="Insert the title of your Post!"></textarea>
-                <textarea name="subTitle" id="subTitle" placeholder="Insert the subtitle of your Post!"></textarea>
+            <form onSubmit={handleSubmit}>
+                <textarea name="title" id="title" placeholder="Insert the title of your Post!" onChange={handleTitleChange}></textarea>
+                <textarea name="subTitle" id="subTitle" placeholder="Insert the subtitle of your Post!"onChange={handleTitleChange}></textarea>
                 <div className="blogContent">
                     {elements.map((el) => {
                         if(el.type === 'image') {
@@ -113,7 +143,7 @@ function Post() {
                         }
                         if(el.type === 'button') {
                             return(
-                                <button key={el.id} className={el.class} onClick={deleteImage}>
+                                <button key={el.id} className={el.class}>
                                     Delete Image
                                 </button>
                             )
@@ -123,15 +153,17 @@ function Post() {
                                 key={el.id}
                                 name={el.name}
                                 className={el.class}
+                                onChange={(e) => handleTextChange(e, el.id)}
                             />
-      );
-                    })};
+                        )
+                    })}
                 </div>                
-                <button id="submit" type="submit">Post!</button>
+                <button id="submit" type="submit" >Post!</button>
             </form>
             </div>
         </section>
     );
-}
+
+};
 
 export default Post

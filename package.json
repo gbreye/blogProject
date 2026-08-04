@@ -19,6 +19,8 @@
     "express-rate-limit": "^8.6.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.8.0",
+    "multer": "^2.2.0",
+    "mutter": "^1.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-dropzone": "^19.2.0",

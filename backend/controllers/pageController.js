@@ -57,4 +57,18 @@ async function savePage(req, res) {
   }
 }
 
-export default { savePage }
+async function getPage(req, res) {
+    const {id} = req.body;
+    try {
+        const page = await Page.findById(id);
+        if (!page) {
+            return res.status(404).json({ mes: "Página não encontrada" });
+        }
+        return res.status(200).json(page);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ mes: "Erro interno" });
+    }
+}
+
+export default { savePage, getPage }
