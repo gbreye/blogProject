@@ -23,7 +23,7 @@
 .postContent {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     background-color: #36363625;
     padding: clamp(30px, 100vw, 50px);
