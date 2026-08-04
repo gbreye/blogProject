@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Page from '../models/Page.js';
 import { createClient } from '@supabase/supabase-js';
+import { Cursor } from 'mongoose';
 
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
@@ -71,4 +72,30 @@ async function getPage(req, res) {
     }
 }
 
+async function searchPages(req, res, db) {
+  try {
+    const cursor = db.collection('pages').find().limit(5);
+    const pages = []
+    const results = []
+  
+  if(!cursor) {
+    return res.status(404).json({mes: "banco de dados indisponivel ou aba pages não encontrada"})
+  }
+  for await (const pages of cursor) {
+    results.push({
+      id: page._id,
+      title: page.title,
+      subTitle: page.subTitle
+    });
+  }
+  if(results.length === 0){
+    return res.status(404).json({mes:'Erro em tentar requisitr info do usuario nenhuma pagina salva'})
+  }
+  return res.status(200).json({results})
+ }catch(error) {
+  console.log('erro', error)
+  return res.status(500).json({mes: 'Internal Server Error.'})
+ }
+
+}
 export default { savePage, getPage }
