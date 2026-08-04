@@ -1,0 +1,56 @@
+.mainHero {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center ;
+    justify-content: center;
+}
+
+.heroContent {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-color: #36363625;
+    color: white;
+}
+
+#grettings {
+    background-color: #02020259;
+    padding: 30px;
+    transition: 0.5s ease;
+    margin-bottom: 30px;
+}
+
+#grettings:hover {
+    border-radius: 100px;
+}
+
+h1 {
+    color: white;
+    
+}
+
+h2 {
+    color: white;
+}
+
+p {
+    color: wheat;
+}
+
+.post {
+    padding: 50px;
+    background-color: #02020259;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.post:hover {
+    border-radius: 100px;
+}

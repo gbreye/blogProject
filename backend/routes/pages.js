@@ -1,6 +1,7 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import multer from 'multer';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -26,6 +27,11 @@ router.post('/addpage', upload.any(), adminMiddleware.adminMiddleWare, async (re
 router.post('/verifyPage', async (req, res) => {
     console.log("entrou no verifyPage");
     await pageController.getPage(req, res);
+});
+
+router.get('/searchPages', async (req, res) => {
+    console.log("entrou no searchPages");
+    await pageController.searchPages(req, res, mongoose);
 });
 
 export default router;
