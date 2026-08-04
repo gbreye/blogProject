@@ -1,6 +1,13 @@
 import User from '../models/User.js';
 import Page from '../models/Page.js'
 
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL, 
+  process.env.VITE_SUPABASE_PUBLISHABLE_KEY
+);
+
 
 
 async function savePage(req, res) {
@@ -28,8 +35,10 @@ async function savePage(req, res) {
         } = supabase.storage.from('postImage').getPublicUrl(`public/${file.originalname}`);
         const imageElement = parsedStructure.find(el => el.id === imageFieldName && el.type === 'image');
         if (imageElement) {
-            imageElement.src = imageUrl;
+            console.log("entrou aq")
+            imageElement.src = urlData;
         }
+        console.log('num foi')
     }
     try {
         const createPage = await Page.create({ title, subTitle, structure: JSON.stringify(parsedStructure) });
