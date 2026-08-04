@@ -17,7 +17,7 @@
     flex-direction: column;
     overflow-y: scroll;
     padding: 40px 0;
-
+    overflow-x: hidden;
 }
 
 .postContent {
@@ -46,6 +46,39 @@
     padding: clamp(30px, 10vw, 40px);
     margin: clamp(10px, 10vw, 20px);
     border-radius: 30px;
+}
+
+#title {
+    background-color: #55555563;
+    padding: 20px;
+    border: none;
+    font-size: clamp(1.5rem, 10vw, 3rem);
+    color: white;
+    resize: none;
+    width: 100%;
+    border-radius: 20px;
+    height: 100px;
+    font-weight: 700;
+}
+
+#subTitle {
+    background-color: #55555536;
+    padding: 20px;
+    border: none;
+    font-size: clamp(1.1rem, 10vw, 1.5rem);
+    color: white;
+    resize: none;
+    width: 100%;
+    border-radius: 100px;
+    margin-top: 10px;
+    height: 70px;
+}
+
+p {
+    font-size: clamp(15px, 2vw, 20px);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    text-align: justify;
 }
 
 img {
