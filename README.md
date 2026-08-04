@@ -22,4 +22,15 @@ You can get delete your post whenever you want
 ## UPCOMING FEATURES ##
 Comment, like and favorite sections
 
+## How to use the project ##
+You can clone this repo in your pc, for security reasons the .env file is not commited, so, you have to create in your own
+
+# Install dependences #
+To install the project modules, you need NodeJS  and run the command "npm install"
+In this project, we use a Database called mongoDb, and for the file storage we use Supabase Storage, you will need to config the Supabase and MongoDB to run the project
+
+# Run the project #
+To run the frontend side project, run the command "npm run dev" which will open the project in localhost:5173. Now to run the server side, run the command "cd backend/" and the "node server.js" # IT WILL ONLY RUN IF .ENV FILE IS CONFIG EXISTS #
+
+
 
