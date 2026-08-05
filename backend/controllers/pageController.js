@@ -137,7 +137,13 @@ async function deletePage(req, res) {
   } catch(error) {
     console.log('erro tropa', error)
   }
-  
 }
+
+async function modifyPage(req, res) {
+  const {id} = req.body
+  if(!id) {
+    return res.status(400).json({mes: 'erro no recebimento do id'});
+  }
+};
 
 export default { savePage, getPage, searchPagesHome, searchPagesAll, deletePage };
