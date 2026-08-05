@@ -14,7 +14,6 @@ function Header() {
           credentials: 'include'
         });
         if (!response.ok) {
-          alert('Erro ao buscar os dados do post');
           console.log('Erro em enviar/receber as informações', response.statusText);
           return;
         }
