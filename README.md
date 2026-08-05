@@ -12,10 +12,6 @@ When you enter the Home Page, if you are an admin and your token is valid, you w
 Add and delete many textBox you want
 Add Images and delete images to your post
 [ IN WORKING ]
-Add a more complex text editor options like, bold and italic
-Add links and Audio.
-## Modify Pages ##
-You can modify page title, and the rest of the content of your post
 ## Delete Pages ##
 You can get delete your post whenever you want
 
