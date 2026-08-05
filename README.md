@@ -28,5 +28,8 @@ In this project, we use a Database called mongoDb, and for the file storage we u
 # Run the project #
 To run the frontend side project, run the command "npm run dev" which will open the project in localhost:5173. Now to run the server side, run the command "cd backend/" and the "node server.js" # IT WILL ONLY RUN IF .ENV FILE IS CONFIG EXISTS #
 
+# .ENV file #
+You need to put the .env file in backend folder to make the project work!
+
 
 
