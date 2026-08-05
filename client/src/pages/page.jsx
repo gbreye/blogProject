@@ -138,11 +138,7 @@ const { id } = useParams();
                 Delete Page
               </button>
             )}
-            {isAdmin && (
-              <button className="modifyButton">
-                Modify Page
-              </button>
-            )}
+            
         </div>
         
             </section>    
