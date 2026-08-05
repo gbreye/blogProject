@@ -88,3 +88,18 @@ img {
   border-radius: 30px;
   transition: 0.2s ease;
 }
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    padding: 30px;
+}
+
+.buttons button {
+    padding: 20px;
+    border: 2px solid #0072c4;
+    border-radius: 100px;
+    background-color: #0094FF;
+    cursor: pointer;
+    transition: 0.3s ease;
+}

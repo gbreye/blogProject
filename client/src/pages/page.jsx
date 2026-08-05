@@ -8,12 +8,34 @@ function AddedPost() {
     const [subTitle, setSubTitle] = useState('');
     const [structure, setStructure] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [isAdmin, setIsAdmin] = useState(false);
 
 const { id } = useParams(); 
 
   useEffect(() => {
 
+    const verifyAdmin = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/me', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          alert('Erro ao buscar os dados do post');
+          console.log('Erro em enviar/receber as informações', response.statusText);
+          return;
+        }
+        const data = await response.json()
+        if(data.isAdmin === true) {
+          setIsAdmin(true);
+       }
+        else {
+          setAddPage(false)
+        }
+      } catch(error) {
+        console.log(error)
+      }
+      }
     const verifyPage = async () => {
       if (!id) {
         alert('ID da página não fornecido');
@@ -35,7 +57,9 @@ const { id } = useParams();
         }
 
         const data = await response.json();
+        console.log('Dados recebidos:', data);
         setPostData(data);
+        console.log(postData);
         setTitle(data.title);
         setSubTitle(data.subTitle);
         let parsedStructure = [];
@@ -46,17 +70,36 @@ const { id } = useParams();
         } catch (e) {
             console.log('Erro ao parsear structure:', e);
         }   
-setStructure(Array.isArray(parsedStructure) ? parsedStructure : []);
+    setStructure(Array.isArray(parsedStructure) ? parsedStructure : []);
+    console.log('Estrutura do post:', structure);
+    console.log(postData);
       } catch (error) {
         console.log('Erro na requisição:', error);
       } finally {
         setIsLoading(false);
       }
     };
-
+    
+    verifyAdmin();
     verifyPage();
     
   }, [id]); 
+  
+  async function handleDelete() {
+    try {
+      const response = await fetch('http://localhost:3000/createPage/deletePage', {
+        method: 'DELETE',
+        credentials: 'include',
+        body: JSON.stringify({ id: id }),
+      });
+    if(!response.ok) {
+      alert('erro ao deletar a pagina')
+    }
+    } catch(error) {
+      alert('erro em deletar a pagina');
+    }
+  }
+
 
     return (
         <section className="mainContent">
@@ -88,6 +131,19 @@ setStructure(Array.isArray(parsedStructure) ? parsedStructure : []);
             return null; 
           })}
         </div>
+        <div className='buttons'>
+          {isAdmin && (
+              <button className="deleteButton" onClick={handleDelete}>
+                Delete Page
+              </button>
+            )}
+            {isAdmin && (
+              <button className="modifyButton">
+                Modify Page
+              </button>
+            )}
+        </div>
+        
             </section>    
         </section>
     )

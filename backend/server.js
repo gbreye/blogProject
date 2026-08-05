@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { connectDB, disconnectDB } from './config/database.js';
+import adminMiddleware from './middlewares/adminMiddleWare.js'
 
 import { createClient } from '@supabase/supabase-js'
 
@@ -30,6 +31,9 @@ app.use(express.json());
 app.use('/users', usersRoutes.default);
 app.use('/createPage', pageRouter.default);
 
+app.get("/me", adminMiddleware.adminMiddleWare, async (req, res) => {
+    res.json({isAdmin: true});
+});
 
 app.get("/", (req, res) => {
     res.send("Hello World");

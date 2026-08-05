@@ -31,7 +31,16 @@ router.post('/verifyPage', async (req, res) => {
 
 router.get('/searchPages', async (req, res) => {
     console.log("entrou no searchPages");
-    await pageController.searchPages(req, res, mongoose);
+    await pageController.searchPagesHome(req, res, mongoose);
+});
+
+router.get('/searchPagesAll', async(req, res) => {
+    await pageController.searchPagesAll(req, res, mongoose);
+});
+
+router.delete('/deletePage', adminMiddleware.adminMiddleWare, async (req, res) => {
+    console.log("entrou no deletePage");
+    await pageController.deletePage(req, res);
 });
 
 export default router;

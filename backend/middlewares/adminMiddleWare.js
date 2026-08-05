@@ -20,7 +20,7 @@ async function adminMiddleWare(req, res, next) {
         if(user.isAdmin === false) {
             return res.status(401).json({mes: 'usuario não é admin!'});
         };
-
+        
         next();
     } catch(error) {
         console.log(error);

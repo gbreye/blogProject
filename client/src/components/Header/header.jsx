@@ -1,10 +1,37 @@
 import './header.css'; 
 import { useState } from 'react';
+import { useEffect } from "react";
 
 function Header() {
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const [isAdmin, setIsAdmin] = useState(false);
+    useEffect(() => {
+      
+      const verifyAdmin = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/me', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          alert('Erro ao buscar os dados do post');
+          console.log('Erro em enviar/receber as informações', response.statusText);
+          return;
+        }
+        const data = await response.json()
+        if(data.isAdmin === true) {
+          setIsAdmin(true);
+       }
+        else {
+          setAddPage(false)
+        }
+      } catch(error) {
+        console.log(error)
+      }
+      }
+      verifyAdmin();
+    }, []);
+    
   return (
     <header className="header">
       <section className="headerSection">
@@ -12,8 +39,12 @@ function Header() {
         <nav className="headerNav">
           <ul className={`headerNav-list ${isMenuOpen ? 'active' : ''}`}>
             <li className="headerNav-item"><a href="/" className="headerNav-link">Home</a></li>
-            <li className="headerNav-item"><a href="/about" className="headerNav-link">About</a></li>
-            <li className="headerNav-item"><a href="/contact" className="headerNav-link">Contact</a></li>
+            <li className="headerNav-item"><a href="/allPosts" className="headerNav-link">All posts</a></li>
+            {isAdmin && (
+              <li className="headerNav-item">
+                <a href="/addPage" className="headerNav-link">Add Page</a>
+              </li>
+            )}
           </ul>
           <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <div className={`bar1 ${isMenuOpen ? 'active' : ''}`}></div>

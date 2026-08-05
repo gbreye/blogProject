@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import './css/home.css'
 
-function Home() {
+function AllPosts () {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [subTitle, setSubTitle] = useState('');
@@ -13,6 +13,7 @@ function Home() {
     try {
       const response = await fetch('http://localhost:3000/createPage/searchPages', {
         method: 'GET',
+        
       });
       if (!response.ok) {
         alert('Erro ao buscar os dados do post');
@@ -34,7 +35,7 @@ function Home() {
     return (
         <section className="mainHero">
           <section className="heroContent">
-            <h1 >Welcome, to my blog, see my latest posts!</h1>
+            <h1 id="grettings">All Posts</h1>
           <div className="Posts">
           {elements.map((el) => {
               return (
@@ -44,10 +45,11 @@ function Home() {
                 </div>
               );
           })}
+          <p>that is all for now :0</p>
        </div>
           </section>
         </section>
 );
 }
 
-export default Home;
+export default AllPosts

@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { createClient } from '@supabase/supabase-js';
 
 
+
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
 async function savePage(req, res) {
@@ -73,7 +74,7 @@ async function getPage(req, res) {
     }
 }
 
-async function searchPages(req, res, mongoose) {
+async function searchPagesHome(req, res, mongoose) {
   try {
     const cursor = mongoose.connection.db.collection('pages').find().limit(5);
     const results = [];
@@ -97,6 +98,46 @@ async function searchPages(req, res, mongoose) {
   }
 }
 
+async function searchPagesAll(req, res, mongoose) {
+  try {
+    const cursor = mongoose.connection.db.collection('pages').find();
+    const results = [];
+    
+    for await (const page of cursor) {
+      results.push({
+        id: page._id,
+        title: page.title,
+        subTitle: page.subTitle
+      });
+    }
+    
+    if (results.length === 0) {
+      return res.status(404).json({ mes: 'Nenhuma pagina salva encontrada.' });
+    }
+    
+    return res.status(200).json({ results });
+  } catch (error) {
+    console.log('erro', error);
+    return res.status(500).json({ mes: 'Internal Server Error.' });
+  }
+}
 
+async function deletePage(req, res) {
+  const {id} = req.body
 
-export default { savePage, getPage, searchPages };
+  if(!id) {
+    return res.status(400).json({mes: 'erro no recebimento do id'});
+  }
+  try {
+    const deletedPage = await Page.findByIdAndDelete(id);
+    if(!deletedPage) {
+      return res.status(404).json({mes: 'pagina nao encontrada'})
+    }
+    return res.status(200).json({ message: 'Página deletada com sucesso' });
+  } catch(error) {
+    console.log('erro tropa', error)
+  }
+  
+}
+
+export default { savePage, getPage, searchPagesHome, searchPagesAll, deletePage };

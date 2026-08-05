@@ -6,6 +6,7 @@ import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard.jsx";
 import Post from "./pages/addpage.jsx";
 import AddedPost from "./pages/page.jsx";
+import AllPosts from "./pages/allposts.jsx";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard/>}></Route>
                 <Route path="addpage" element={<Post/>}></Route>
                 <Route path="post/:id" element={<AddedPost/>}></Route>
+                <Route path="allposts" element={<AllPosts/>}></Route>
             </Routes>
         </BrowserRouter>
     );
