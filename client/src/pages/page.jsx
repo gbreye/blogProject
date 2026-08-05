@@ -84,13 +84,14 @@ const { id } = useParams();
     verifyPage();
     
   }, [id]); 
-  
+
   async function handleDelete() {
     try {
       const response = await fetch('http://localhost:3000/createPage/deletePage', {
         method: 'DELETE',
         credentials: 'include',
-        body: JSON.stringify({ id: id }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
       });
     if(!response.ok) {
       alert('erro ao deletar a pagina')
