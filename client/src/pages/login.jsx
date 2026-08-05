@@ -73,13 +73,13 @@ function Login() {
     }
 
     return (
-        <section className="mainSection">
+        <section className="heroSection">
             <form className="loginForm" onSubmit={handleSubmit}>
                 <h2 className="loginFormTitle">Login</h2>
                 <input id = "email" value={formData.email} onChange={handleChange} name="email" type="email" placeholder="Email" className="loginFormInput" />
                 <input id = "password" value={formData.password} onChange={handleChange} name="password" type="password" placeholder="Password" className="loginFormInput" />
-                <button type="submit" className="loginFormButton">Sign Up</button>
-                <p id="message"></p>
+                <button type="submit" className="loginFormButton">Login</button>
+                <p id="message">Does not have a Account? <a href="/signup">Sign Up</a></p>
             </form>
         </section>
     );

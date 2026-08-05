@@ -39,6 +39,7 @@ function Header() {
           <ul className={`headerNav-list ${isMenuOpen ? 'active' : ''}`}>
             <li className="headerNav-item"><a href="/" className="headerNav-link">Home</a></li>
             <li className="headerNav-item"><a href="/allPosts" className="headerNav-link">All posts</a></li>
+             <li className="headerNav-item"><a href="/login" className="headerNav-link">Login</a></li>
             {isAdmin && (
               <li className="headerNav-item">
                 <a href="/addPage" className="headerNav-link">Add Page</a>

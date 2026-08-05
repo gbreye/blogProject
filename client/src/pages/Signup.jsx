@@ -76,7 +76,7 @@ function Signup() {
     }
 
     return (
-        <section className="mainSection">
+        <section className="heroSection">
             <form className="loginForm" onSubmit={handleSubmit}>
                 <h2 className="loginFormTitle">Sign Up</h2>
                 <input id = "username" value={formData.username} onChange={handleChange} name="username" type="text" placeholder="Username" className="loginFormInput" />
