@@ -10,10 +10,7 @@ const limiter = rateLimit({
 
 
 
-import usersController from '../controllers/singupController.js'
-import loginController from '../controllers/loginController.js'
-import dashboardController from '../controllers/dashboardController.js';
-
+import auth from '../controllers/auth.js';
 
 
 router.get('/', (req, res) => {
@@ -21,11 +18,11 @@ router.get('/', (req, res) => {
 })
 
 router.post('/signup', limiter, async (req, res) => {
-    await usersController.getForminformation(req, res);
+    await auth.signup(req, res);
 });
 
 router.post('/login', limiter, async (req, res) => {
-    await loginController.getValidation(req, res);
+    await auth.login(req, res);
 });
 
 router.get('/dashboard', async(req, res) => {

@@ -11,7 +11,6 @@ async function getUserInfo(req, res) {
         if(!token) {
            return res.status(401).json({mes: 'Não autorizado'});
         };
-
     try {
 
         const userVerify = jsonwebtoken.verify(token, JWT_SECRET);

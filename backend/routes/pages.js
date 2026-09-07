@@ -16,31 +16,31 @@ const limiter = rateLimit({
     message: 'Muitas requisições criadas, tente novamente mais tarde.'
 });
 
-import pageController from '../controllers/pageController.js';
+import page from '../controllers/pageController.js';
 import adminMiddleware from '../middlewares/adminMiddleWare.js'
 
 router.post('/addpage', upload.any(), adminMiddleware.adminMiddleWare, async (req, res) => {
     console.log("entrou no addpage");
-    await pageController.savePage(req, res);
+    await page.savePage(req, res);
 });
 
 router.post('/verifyPage', async (req, res) => {
     console.log("entrou no verifyPage");
-    await pageController.getPage(req, res);
+    await page.getPage(req, res);
 });
 
 router.get('/searchPages', async (req, res) => {
     console.log("entrou no searchPages");
-    await pageController.searchPagesHome(req, res, mongoose);
+    await page.searchPagesHome(req, res, mongoose);
 });
 
 router.get('/searchPagesAll', async(req, res) => {
-    await pageController.searchPagesAll(req, res, mongoose);
+    await page.searchPagesAll(req, res, mongoose);
 });
 
 router.delete('/deletePage', adminMiddleware.adminMiddleWare, async (req, res) => {
     console.log("entrou no deletePage");
-    await pageController.deletePage(req, res);
+    await page.deletePage(req, res);
 });
 
 export default router;
