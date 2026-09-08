@@ -1,25 +1,17 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
 dotenv.config();
+import sqlite3 from 'sqlite3';
 
-async function connectDB() {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log('Connected to MongoDB');
-    } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-        process.exit(1);
+const dbPromise = new Promise((resolve, reject) => {
+  const db = new sqlite3.Database('../../database.db', (err) => {
+    if (err) {
+      console.error('Error while connecting to db: ', err);
+      reject(err);
+    } else {
+      console.log('Connected to db!');
+      resolve(db);
     }
-}
+  });
+});
 
-async function disconnectDB() {
-    try {
-        await mongoose.disconnect();
-        console.log('Disconnected from MongoDB');
-    } catch (error) {
-        console.error('Error disconnecting from MongoDB:', error);
-    }
-}
-
-export { connectDB, disconnectDB, };  
+export default dbPromise;
