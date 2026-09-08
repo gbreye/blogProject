@@ -5,13 +5,13 @@ export default class User {
     this.dbPromise = dbPromise;
   }
 
-  async create(name, email, password) {
+  async create(username, email, password, admin) {
     const db = await this.dbPromise;
-    const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    const sql = "INSERT INTO users (username, email, password, admin) VALUES (?, ?, ?)";
     return new Promise((resolve, reject) => {
-      db.run(sql, [name, email, password], function (err) {
+      db.run(sql, [username, email, password, admin], function (err) {
         if (err) return reject(err);
-        resolve({ id: this.lastID, name, email });
+        resolve({ id: this.lastID, username, email });
       });
     });
   }
@@ -25,5 +25,43 @@ export default class User {
         resolve(row);
       });
     });
+  }
+
+  async delete(id) {
+    const db = await this.dbPromise;
+    const sql = 'DELETE FROM users WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        db.run(sql, [id], function (err)  {
+            if(err) return reject(err);
+            resolve({ changes: this.changes });
+        });
+    });
+  }
+
+  async addAdmin(id) {
+    const db = await this.dbPromise;
+    const sql = 'UPDATE users SET admin = 1 WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        db.run(sql, [id], function (err) {
+            if(err) return reject(err);
+            resolve({ changes: this.changes });
+        });
+    });
+  }
+
+  async removeAdmin(id) {
+    const db = await this.dbPromise;
+    const sql = 'UPDATE users SET admin = 0 WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        db.run(sql, [id], function (err) {
+            if(err) return reject(err);
+            resolve({ changes: this.changes });
+        });
+    });
+  }
+
+
+  async modifyUserName(username) {
+
   }
 }
