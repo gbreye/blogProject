@@ -1,67 +1,80 @@
-import dbPromise from "./database.js";
+import db from './database.js';
 
-export default class User {
+class User {
   constructor() {
-    this.dbPromise = dbPromise;
+    this.db = db;
   }
 
-  async create(username, email, password, admin) {
-    const db = await this.dbPromise;
-    const sql = "INSERT INTO users (username, email, password, admin) VALUES (?, ?, ?)";
-    return new Promise((resolve, reject) => {
-      db.run(sql, [username, email, password, admin], function (err) {
-        if (err) return reject(err);
-        resolve({ id: this.lastID, username, email });
-      });
-    });
+  create(username, email, password, admin) {
+    const sql = 'INSERT INTO users (username, email, password, admin) VALUES (?, ?, ?, ?)';
+    const stmt = this.db.prepare(sql);
+    const result = stmt.run(username, email, password, admin);
+    
+    return { id: result.lastInsertRowid, username, email };
   }
 
-  async find(id) {
-    const db = await this.dbPromise;
+  find(id) {
     const sql = 'SELECT * FROM users WHERE id = ?';
-    return new Promise((resolve, reject) => {
-      db.get(sql, [id], (err, row) => {
-        if (err) return reject(err);
-        resolve(row);
-      });
-    });
+    return this.db.prepare(sql).get(id);
   }
 
-  async delete(id) {
-    const db = await this.dbPromise;
+  findByEmail(email) {
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    return this.db.prepare(sql).get(email);
+  }
+
+  delete(id) {
     const sql = 'DELETE FROM users WHERE id = ?';
-    return new Promise((resolve, reject) => {
-        db.run(sql, [id], function (err)  {
-            if(err) return reject(err);
-            resolve({ changes: this.changes });
-        });
-    });
+    const result = this.db.prepare(sql).run(id);
+    return { changes: result.changes };
   }
 
-  async addAdmin(id) {
-    const db = await this.dbPromise;
+  addAdmin(id) {
     const sql = 'UPDATE users SET admin = 1 WHERE id = ?';
-    return new Promise((resolve, reject) => {
-        db.run(sql, [id], function (err) {
-            if(err) return reject(err);
-            resolve({ changes: this.changes });
-        });
-    });
+    const result = this.db.prepare(sql).run(id);
+    return { changes: result.changes };
   }
 
-  async removeAdmin(id) {
-    const db = await this.dbPromise;
+  removeAdmin(id) {
     const sql = 'UPDATE users SET admin = 0 WHERE id = ?';
-    return new Promise((resolve, reject) => {
-        db.run(sql, [id], function (err) {
-            if(err) return reject(err);
-            resolve({ changes: this.changes });
-        });
-    });
-  }
-
-
-  async modifyUserName(username) {
-
+    const result = this.db.prepare(sql).run(id);
+    return { changes: result.changes };
   }
 }
+
+class Page {
+  constructor() {
+    this.db = db;
+  }
+
+  create(title, subTitle, structure) {
+    const sql = 'INSERT INTO pages (title, subTitle, structure) VALUES (?, ?, ?)';
+    const result = this.db.prepare(sql).run(title, subTitle, structure);
+    return { id: result.lastInsertRowid, title, subTitle, structure };
+  }
+
+  find(id) {
+    const sql = 'SELECT * FROM pages WHERE id = ?';
+    return this.db.prepare(sql).get(id);
+  }
+
+  findAll() {
+    const sql = 'SELECT * FROM pages';
+    return this.db.prepare(sql).all();
+  }
+
+  findHome() {
+    const sql = 'SELECT * FROM pages LIMIT 5';
+    return this.db.prepare(sql).all();
+  }
+
+  delete(id) {
+    const sql = 'DELETE FROM pages WHERE id = ?';
+    const result = this.db.prepare(sql).run(id);
+    return { changes: result.changes };
+  }
+}
+
+
+export default new User();
+export const page = new Page();

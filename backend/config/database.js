@@ -1,17 +1,24 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import sqlite3 from 'sqlite3';
+import Database from 'better-sqlite3';
 
-const dbPromise = new Promise((resolve, reject) => {
-  const db = new sqlite3.Database('../../database.db', (err) => {
-    if (err) {
-      console.error('Error while connecting to db: ', err);
-      reject(err);
-    } else {
-      console.log('Connected to db!');
-      resolve(db);
-    }
-  });
-});
+const db = new Database('../../database.db', { verbose: console.log });
 
-export default dbPromise;
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    admin INTEGER DEFAULT 0
+  );
+
+  CREATE TABLE IF NOT EXISTS pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    subTitle TEXT,
+    structure TEXT
+  );
+`);
+
+export default db;

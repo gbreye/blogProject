@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import { connectDB, disconnectDB } from './config/database.js';
 import adminMiddleware from './middlewares/adminMiddleWare.js'
 
 import { createClient } from '@supabase/supabase-js'
@@ -39,7 +38,6 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
-connectDB();
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

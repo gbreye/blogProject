@@ -1,11 +1,22 @@
-import User from "../models/User.js";
-import Page from "../models/Page.js";
-import mongoose from "mongoose";
+import Page from "../config/crud.js";
+import User from "../config/crud.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import { createClient } from "@supabase/supabase-js";
 
+const url = process.env.VITE_SUPABASE_URL;
+const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+if (!url || !key) {
+  console.log(url, key);
+  throw new Error("Supabase URL or Key is not defined in environment variables.");
+}
+
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  url,
+  key
 );
 
 class page {
@@ -45,12 +56,7 @@ class page {
     }
 
     try {
-      const createPage = await Page.create({
-        title,
-        subTitle,
-        structure: JSON.stringify(parsedStructure),
-      });
-
+      const createPage = await Page.create(title, subTitle, JSON.stringify(parsedStructure));
       if (!createPage) {
         return res.status(500).json({ mes: "eu sinto shadow no meu" });
       }
@@ -65,7 +71,7 @@ class page {
   async getPage(req, res) {
     const { id } = req.body;
     try {
-      const page = await Page.findById(id);
+      const page = await Page.find(id);
       if (!page) {
         return res.status(404).json({ mes: "Página não encontrada" });
       }
@@ -78,12 +84,12 @@ class page {
 
   async searchPagesHome(req, res, mongoose) {
     try {
-      const cursor = mongoose.connection.db.collection("pages").find().limit(5);
+      const cursor = await Page.findHome();
       const results = [];
 
       for await (const page of cursor) {
         results.push({
-          id: page._id,
+          id: page.id,
           title: page.title,
           subTitle: page.subTitle,
         });
@@ -104,12 +110,12 @@ class page {
 
   async searchPagesAll(req, res, mongoose) {
     try {
-      const cursor = mongoose.connection.db.collection("pages").find();
+      const cursor = await Page.findAll();
       const results = [];
 
       for await (const page of cursor) {
         results.push({
-          id: page._id,
+          id: page.id,
           title: page.title,
           subTitle: page.subTitle,
         });
@@ -135,7 +141,7 @@ class page {
       return res.status(400).json({ mes: "erro no recebimento do id" });
     }
     try {
-      const deletedPage = await Page.findByIdAndDelete(id);
+      const deletedPage = await Page.delete(id);
       if (!deletedPage) {
         return res.status(404).json({ mes: "pagina nao encontrada" });
       }

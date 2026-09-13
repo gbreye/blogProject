@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import User from "../models/User.js";
 import jsonwebtoken from "jsonwebtoken";
+import User from '../config/crud.js';
 const JWT_SECRET = process.env.JWT_SECRET;
 const TOKEN_EXPIRY = "1h";
 
@@ -15,18 +15,13 @@ class auth {
       if(!password || password === "" || /[{}]/.test(password)) {
         return res.status(400).json({mes: 'bad request'});
       }
-      const user = await User.findOne({ email: email });
+      const user = await User.findByEmail(email);
       if (user) {
         return res.status(401).json({ message: 'same email!' });
       }
       const saltRounds = 12;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
-      await User.create({
-        username,
-        email,
-        password: hashedPassword,
-        isAdmin: true,
-      }); //isAdmin no padrão é falso, mas para uso de teste coloquei no true
+      await User.create(username, email, hashedPassword, 0); //isAdmin no padrão é falso, mas para uso de teste coloquei no true
       res.status(201).json({ message: "Signup successful" });
     } catch (error) {
       console.error("Error during signup:", error);
@@ -49,7 +44,7 @@ class auth {
       if (/[{}]/.test(password)) {
         return res.status(400).json({ mes: "bad request!" });
       }
-      const user = await User.findOne({ email: email });
+      const user = await User.findByEmail(email);
       if (!user) {
         return res.status(404).json({ message: "Invalid user or password" });
       }
@@ -58,7 +53,7 @@ class auth {
         return res.status(401).json({ message: "Invalid user or password" });
       }
       const token = jsonwebtoken.sign(
-        { id: user._id, email: user.email },
+        { id: user.id, email: user.email },
         JWT_SECRET,
         { expiresIn: TOKEN_EXPIRY },
       );
