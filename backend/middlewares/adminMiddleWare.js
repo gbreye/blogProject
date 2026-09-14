@@ -1,5 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
-import User from "../config/crud.js";
+import User from "../config/crudUser.js";
 
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -19,7 +19,7 @@ async function adminMiddleWare(req, res, next) {
         if(!user) {
             return res.status(404).json({mes:'usuario nao encontrado'});
         }
-        if(admin === 0) {
+        if(admin === 0.0) {
             return res.status(401).json({mes: 'usuario não é admin!'});
         };
         

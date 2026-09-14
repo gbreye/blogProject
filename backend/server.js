@@ -31,7 +31,7 @@ app.use('/users', usersRoutes.default);
 app.use('/createPage', pageRouter.default);
 
 app.get("/me", adminMiddleware.adminMiddleWare, async (req, res) => {
-    res.json({isAdmin: true});
+    res.json({admin: 1.0});
 });
 
 app.get("/", (req, res) => {

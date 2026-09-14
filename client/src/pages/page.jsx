@@ -26,7 +26,7 @@ const { id } = useParams();
           return;
         }
         const data = await response.json()
-        if(data.isAdmin === true) {
+        if(data.admin === 1) {
           setIsAdmin(true);
        }
         else {

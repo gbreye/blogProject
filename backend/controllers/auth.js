@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
-import User from '../config/crud.js';
+import User from '../config/crudUser.js';
 const JWT_SECRET = process.env.JWT_SECRET;
 const TOKEN_EXPIRY = "1h";
 
@@ -21,7 +21,7 @@ class auth {
       }
       const saltRounds = 12;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
-      await User.create(username, email, hashedPassword, 0); //isAdmin no padrão é falso, mas para uso de teste coloquei no true
+      await User.create(username, email, hashedPassword, 1); //isAdmin no padrão é falso, mas para uso de teste coloquei no true
       res.status(201).json({ message: "Signup successful" });
     } catch (error) {
       console.error("Error during signup:", error);

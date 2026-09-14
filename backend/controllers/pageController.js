@@ -1,5 +1,4 @@
-import Page from "../config/crud.js";
-import User from "../config/crud.js";
+import Page from "../config/crudPage.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -75,14 +74,14 @@ class page {
       if (!page) {
         return res.status(404).json({ mes: "Página não encontrada" });
       }
-      return res.status(200).json(page);
+      return res.status(200).json({title: page.title, subTitle: page.subtitle, structure: JSON.parse(page.structure)});
     } catch (error) {
       console.log(error);
       return res.status(500).json({ mes: "Erro interno" });
     }
   }
 
-  async searchPagesHome(req, res, mongoose) {
+  async searchPagesHome(req, res) {
     try {
       const cursor = await Page.findHome();
       const results = [];
