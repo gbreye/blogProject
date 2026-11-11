@@ -1,53 +1,40 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import './css/home.css'
+import { useState } from 'react';
+import PostList from '../components/PostList/PostList';
+import Title from '../components/Title/Title';
+import usePosts from '../hooks/usePosts';
+import { Popup } from '../components/Popup/Popup';
 
 function Home() {
-    const navigate = useNavigate();
-    const [title, setTitle] = useState('');
-    const [subTitle, setSubTitle] = useState('');
-    const [elements, setElements] = useState([]);
-    useEffect(() => {
-  const verifyPage = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/createPage/searchPages', {
-        method: 'GET',
-      });
-      if (!response.ok) {
-        alert('Erro ao buscar os dados do post');
-        console.log('Erro em enviar/receber as informações', response.statusText);
-        return;
-      }
-      const data = await response.json();
-      console.log(data);
-      setElements(data.results)
-      console.log(data.results)
+  const posts = usePosts();
+  const postListTitle = "Posts mais recentes.";
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    } catch (error) {
-      console.log(error)
-      alert('Erro', error);
-    }
-  };
-  verifyPage();
-}, []);
-    return (
-        <section className="mainHero">
-          <section className="heroContent">
-            <h1 >Welcome, to my blog, see my latest posts!</h1>
-          <div className="Posts">
-          {elements.map((el) => {
-              return (
-                <div className="post" key={el.id} onClick={(e) => {e.preventDefault(); navigate(`/post/${el.id}`);}}>
-                    <h1>{el.title}</h1>
-                    <h2>{el.subTitle}</h2>
-                </div>
-              );
-          })}
-       </div>
-          </section>
-        </section>
-);
+  return (
+    <section className='page-shell'>
+      <Title>
+        <h3 className='title'>Bem vindo, Usuario</h3>
+      </Title>
+      
+      <Title className='subtitle'>
+        Fique avontade! Observe nossos novos posts!
+      </Title>
+
+      <button 
+        className='button' 
+        onClick={() => setIsPopupOpen(true)}
+      >
+        Abrir popup
+      </button>
+      <Popup 
+        isOpen={isPopupOpen} 
+        onClose={() => setIsPopupOpen(false)}
+        title = "Popup de Teste"
+        content= "Este é um popup de teste!"
+      />
+
+      <PostList title={postListTitle} posts={posts} />
+    </section>
+  );
 }
 
 export default Home;

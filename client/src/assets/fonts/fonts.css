@@ -1,0 +1,27 @@
+/* ZT Nature — apenas as faces normais em WOFF2.
+   Os arquivos .ttf e *Italic.ttf continuam na pasta como opção, mas o
+   site carrega somente os WOFF2 normais para reduzir o tamanho. */
+
+@font-face {
+  font-family: 'ZT Nature';
+  src: url('./ZTNature-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ZT Nature';
+  src: url('./ZTNature-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ZT Nature';
+  src: url('./ZTNature-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

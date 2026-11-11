@@ -1,0 +1,38 @@
+.posts-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.posts-page__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 30px;
+}
+
+.posts-page__heading {
+  width: 100%;
+  padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  background-color: var(--color-bg-dark-overlay);
+  transition: border-radius 0.5s ease;
+}
+
+.posts-page__heading:hover {
+  border-radius: 100px;
+}
+
+.posts-page__list {
+  width: 100%;
+}
+
+.posts-page__footer {
+  color: var(--color-text-highlight);
+  text-align: center;
+}

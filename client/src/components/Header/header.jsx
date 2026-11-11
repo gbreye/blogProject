@@ -1,52 +1,60 @@
-import './header.css'; 
-import { useState } from 'react';
-import { useEffect } from "react";
+import './header.css';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Title from '../Title/Title';
 
 function Header() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-    useEffect(() => {
-      
-      const verifyAdmin = async () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const verifyAdmin = async () => {
       try {
         const response = await fetch('http://localhost:3000/me', {
           method: 'GET',
-          credentials: 'include'
+          credentials: 'include',
         });
-        if (!response.ok) {
-          console.log('Erro em enviar/receber as informações', response.statusText);
-          return;
-        }
-        const data = await response.json()
-        if(data.admin === 1) {
-          setIsAdmin(true);
-       }
-        else {
-          setAddPage(false)
-        }
-      } catch(error) {
-        console.log(error)
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        setIsAdmin(data.admin === 1);
+      } catch (error) {
+        console.log(error);
       }
-      }
-      verifyAdmin();
-    }, []);
-    
+    };
+
+    verifyAdmin();
+  }, []);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <header className="header">
       <section className="headerSection">
-        <h1 className="headerTitle">My Blog</h1>
+        <Title as="h1" className="headerTitle">
+          <Link to="/" className="headerTitle-link" onClick={closeMenu}>My Blog</Link>
+        </Title>
+
         <nav className="headerNav">
           <ul className={`headerNav-list ${isMenuOpen ? 'active' : ''}`}>
-            <li className="headerNav-item"><a href="/" className="headerNav-link">Home</a></li>
-            <li className="headerNav-item"><a href="/allPosts" className="headerNav-link">All posts</a></li>
-             <li className="headerNav-item"><a href="/login" className="headerNav-link">Login</a></li>
+            <li className="headerNav-item">
+              <Link to="/" className="headerNav-link" onClick={closeMenu}>Inicio</Link>
+            </li>
+            <li className="headerNav-item">
+              <Link to="/allposts" className="headerNav-link" onClick={closeMenu}>Todos</Link>
+            </li>
+            <li className="headerNav-item">
+              <Link to="/login" className="headerNav-link" onClick={closeMenu}>Login</Link>
+            </li>
             {isAdmin && (
               <li className="headerNav-item">
-                <a href="/addPage" className="headerNav-link">Add Page</a>
+                <Link to="/addpage" className="headerNav-link" onClick={closeMenu}>Adicionar Pagina</Link>
               </li>
             )}
           </ul>
-          <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+
+          <div className="hamburger" onClick={() => setIsMenuOpen((open) => !open)}>
             <div className={`bar1 ${isMenuOpen ? 'active' : ''}`}></div>
             <div className={`bar2 ${isMenuOpen ? 'active' : ''}`}></div>
             <div className={`bar3 ${isMenuOpen ? 'active' : ''}`}></div>

@@ -1,40 +1,38 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import './css/dashboard.css'
+import { useEffect, useState } from 'react';
+import Title from '../components/Title/Title';
+import './css/dashboard.css';
 
 function Dashboard() {
-    const [receivedData, setUserData] = useState("");
+  const [user, setUser] = useState({});
 
-    useEffect(() => {
-        async function receiveUserData() {
-            try {
-                const response = await fetch('http://localhost:3000/users/dashboard', {
-                method:"GET",
-                credentials: "include",
-            });
-            if(!response.ok) {
-                alert("Erro em devolver as informações do usuario");
-                console.log(response.json);
-                return;
-            };
-            const userData = await response.json();
-            setUserData(userData);
-            } catch(error) {
-                console.log("Erro em requisitar as informações do usuario!", error)
-            };
+  useEffect(() => {
+    const receiveUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/users/dashboard', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          alert('Erro em devolver as informações do usuario');
+          return;
         }
 
-        receiveUserData();
-    }, []);
+        setUser(await response.json());
+      } catch (error) {
+        console.log('Erro em requisitar as informações do usuario!', error);
+      }
+    };
 
-    return (
-        <div>
-            <h1>{receivedData.username}</h1>
-            <p>{receivedData.email}</p>
-        </div>
-    );
-   
+    receiveUserData();
+  }, []);
 
-};
+  return (
+    <section className="dashboard">
+      <Title as="h1" className="dashboard__title">{user.username}</Title>
+      <p className="dashboard__email">{user.email}</p>
+    </section>
+  );
+}
 
 export default Dashboard;
