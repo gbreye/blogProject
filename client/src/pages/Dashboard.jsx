@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Title from '../components/Title/Title';
-import './css/dashboard.css';
+import './Dashboard.css';
 
 function Dashboard() {
   const [user, setUser] = useState({});
