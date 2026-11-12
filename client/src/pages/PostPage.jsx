@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import PageShell from '../components/PageShell/PageShell';
 import PostContent from '../components/PostContent/PostContent';
 import Button from '../components/Button/Button';
-import './css/page.css';
+import './PostPage.css';
 
 function AddedPost() {
   const { id } = useParams();

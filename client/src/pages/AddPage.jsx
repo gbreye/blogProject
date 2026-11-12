@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import PageShell from '../components/PageShell/PageShell';
 import Button from '../components/Button/Button';
-import './css/addpage.css';
+import './AddPage.css';
 
 function Post() {
   const [sendData, setDataToSend] = useState({ title: '', subTitle: '' });

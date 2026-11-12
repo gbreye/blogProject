@@ -1,17 +1,17 @@
-import React from "react"
 import Title from "../Title/Title"
+import Button from "../Button/Button"
 import './Popup.css'
 
-export function Popup({isOpen, onClose, title, content}){
-    if(!isOpen) return null;
+export function Popup({ isOpen, onClose, title, content }) {
+    if (!isOpen) return null;
 
     return (
         <section className="popup-overlay">
-            <section className="popup-shell">
+            <div className="popup-shell">
                 <Title>{title}</Title>
                 <p className="text-block">{content}</p>
-                <button className='button' onClick={onClose}>Fechar</button>
-            </section> 
+                <Button onClick={onClose}>Fechar</Button>
+            </div>
         </section>
     )
 }

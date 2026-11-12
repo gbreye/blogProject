@@ -6,6 +6,11 @@ function PostList({ heading, posts = [], footer }) {
   return (
     <section className="posts-page">
       <div className="posts-page__content">
+        {heading && (
+          <Title as="h2" className="posts-page__heading">
+            {heading}
+          </Title>
+        )}
         <div className="posts-page__list">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />
